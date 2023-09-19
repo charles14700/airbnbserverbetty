@@ -50,11 +50,11 @@ const createUser = asyncHandler(async (req, res) => {
 //login AI CHECKED
 const logIn = asyncHandler(async (req, res) => {
   const secret = process.env.SECRET;
-  const { mobile, password } = req.body;
-  const user = await User.findOne({ mobile, password });
+  const { email, password } = req.body;
+  const user = await User.findOne({ email, password });
 
   if (!user) {
-    res.status(404).send("Wrong mobile!");
+    res.status(404).send("Wrong email!");
     return;
   }
 
@@ -65,7 +65,7 @@ const logIn = asyncHandler(async (req, res) => {
         isAdmin: user.isAdmin,
       },
       secret,
-      { expiresIn: "2000d" }
+      { expiresIn: "20d" }
     );
     res.status(200).send({ user: user.email, token });
   } else {
